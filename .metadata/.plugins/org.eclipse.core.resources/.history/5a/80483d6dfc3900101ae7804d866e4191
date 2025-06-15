@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description" uid="_bAO3EDn8EfCc99u8l4rYiQ" selectedViews="_bLnnsDn8EfCc99u8l4rYiQ _bMApQDn8EfCc99u8l4rYiQ _bMFhwDn8EfCc99u8l4rYiQ" version="14.5.1.202106111100">
+  <semanticResources>atm.xmi</semanticResources>
+  <ownedViews xmi:type="viewpoint:DView" uid="_bLnnsDn8EfCc99u8l4rYiQ">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/com.rm2pt.msModel.design/description/project.odesign#//@ownedViewpoints[name='MyViewpoint']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DView" uid="_bMApQDn8EfCc99u8l4rYiQ">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/designmodel.classdiagram.design/description/classdiagram.odesign#//@ownedViewpoints[name='ClassDiagram']"/>
+  </ownedViews>
+  <ownedViews xmi:type="viewpoint:DView" uid="_bMFhwDn8EfCc99u8l4rYiQ">
+    <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/designmodel.sequencediagram.design/description/sequencediagram.odesign#//@ownedViewpoints[name='sequencediagram']"/>
+  </ownedViews>
+</viewpoint:DAnalysis>

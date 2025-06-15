@@ -1,0 +1,177 @@
+MicroServiceModel ATM {
+	MicroService CustomerService {
+		ProvidedInterface transferFunds{
+			[Operation]
+			transferFunds
+		}
+		ProvidedInterface verifyPIN{
+			[Operation]
+			verifyPIN
+		}
+		ProvidedInterface securityAuthentication{
+			[Operation]
+			securityAuthentication
+		}
+		ProvidedInterface changePIN{
+			[Operation]
+			changePIN
+		}
+		ProvidedInterface withdrawCash{
+			[Operation]
+			withdrawCash
+		}
+		ProvidedInterface checkBalance{
+			[Operation]
+			checkBalance
+		}
+		ProvidedInterface displayHistory{
+			[Operation]
+			displayHistory
+		}
+		ProvidedInterface manageMaintenanceLog{
+			[Operation]
+			createMaintenanceLog
+			queryMaintenanceLog
+			updateMaintenanceLog
+			modifyMaintenanceLog
+		}
+		RequiredInterface manageDebitCard
+		RequiredInterface manageAccount
+		DomainModel CustomerService {
+			@AutoCRUD Entity SecurityToken {
+				TokenID : String
+				Type : String
+				ExpiryDate : Date
+				[Refer]
+				Secures : AuditLog  Association
+			}
+			@AutoCRUD Entity User {
+				UserID : String
+				Name : String
+				Role : String
+				[Refer]
+				Generates : AuditLog  Association
+			}
+			@AutoCRUD Entity MaintenanceLog {
+				LogID : String
+				OperatorID : String
+				Denomination : Integer
+				Count : Integer
+				Timestamp : Date
+				[Refer]
+			}
+			@AutoCRUD Entity AuditLog {
+				LogID : String
+				OperationType : String
+				Timestamp : Date
+				UserID : String
+				Details : String
+				[Refer]
+			}
+		}
+	}
+	MicroService MaintenanceService {
+		ProvidedInterface replenishCash{
+			[Operation]
+			replenishCash
+		}
+		ProvidedInterface updateFirmware{
+			[Operation]
+			updateFirmware
+		}
+		ProvidedInterface manageDebitCard{
+			[Operation]
+			createDebitCard
+			queryDebitCard
+			updateDebitCard
+			modifyDebitCard
+		}
+		ProvidedInterface manageAccount{
+			[Operation]
+			createAccount
+			queryAccount
+			updateAccount
+			modifyAccount
+		}
+		RequiredInterface manageTransferRecord
+		DomainModel MaintenanceService {
+			@AutoCRUD Entity Account {
+				AccountNumber : String
+				UserID : String
+				Balance : Real
+				FrozenBalance : Real
+				[Refer]
+				Has : Transaction  Association
+				Have : BalanceInquiry  Association
+			}
+			@AutoCRUD Entity Transaction {
+				TransactionID : String
+				AccountNumber : String
+				Amount : Real
+				Timestamp : Date
+				TransactionType : String
+				[Refer]
+			}
+			@AutoCRUD Entity DebitCard {
+				CardID : String
+				UserID : String
+				AccountNumber : String
+				ExpiryDate : Date
+				PINHash : String
+				[Refer]
+				Linked : Account  Association
+			}
+			@AutoCRUD Entity BalanceInquiry {
+				InquiryID : String
+				AccountNumber : String
+				Timestamp : Date
+				Result : String
+				[Refer]
+			}
+		}
+	}
+	MicroService SystemAdminService {
+		ProvidedInterface manageAuditLogs{
+			[Operation]
+			createAuditLogs
+			queryAuditLogs
+			updateAuditLogs
+			modifyAuditLogs
+		}
+		ProvidedInterface setTransactionLimits{
+			[Operation]
+			setTransactionLimits
+		}
+		ProvidedInterface manageTransferRecord{
+			[Operation]
+			createTransferRecord
+			queryTransferRecord
+			updateTransferRecord
+			modifyTransferRecord
+		}
+		RequiredInterface manageMaintenanceLog
+		DomainModel SystemAdminService {
+			@AutoCRUD Entity TransferRecord {
+				TransferID : String
+				SenderAccount : String
+				ReceiverAccount : String
+				Amount : Real
+				Status : String
+				[Refer]
+			}
+			@AutoCRUD Entity CashInventory {
+				Denomination : Integer
+				Count : Integer
+				LastUpdated : Date
+				[Refer]
+			}
+			@AutoCRUD Entity MaintenancePersonnel {
+				OperatorID : String
+				Name : String
+				KeyID : String
+				AuthCredentials : String
+				[Refer]
+			}
+		}
+	}
+}

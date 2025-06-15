@@ -1,0 +1,490 @@
+RequirementsModel:: 1.0 UseCaseModel ATM { UseCaseContext CustomerService { UC :: transferFunds definedBySSD(TransferFundsSSD) relatedService(TransferFundsService) UC :: verifyPIN definedBySSD(VerifyPINSSD) relatedService(VerifyPINService) UC :: securityAuthentication definedBySSD(SecurityAuthenticationSSD) relatedService(SecurityAuthenticationService) UC :: changePIN include securityAuthentication definedBySSD(ChangePINSSD) relatedService(ChangePINService) UC :: withdrawCash include verifyPIN definedBySSD(WithdrawCashSSD) relatedService(WithdrawCashService) UC :: checkBalance extend displayHistory definedBySSD(CheckBalanceSSD) relatedService(CheckBalanceService) UC :: displayHistory definedBySSD(DisplayHistorySSD) relatedService(DisplayHistoryService) } UseCaseContext MaintenanceService { UC :: replenishCash definedBySSD(ReplenishCashSSD) relatedService(ReplenishCashService) UC :: updateFirmware definedBySSD(UpdateFirmwareSSD) relatedService(UpdateFirmwareService) } UseCaseContext SystemAdminService { UC :: manageAuditLogs definedBySSD(ManageAuditLogsSSD) relatedService(ManageAuditLogsService) UC :: setTransactionLimits definedBySSD(SetTransactionLimitsSSD) relatedService(SetTransactionLimitsService) }
+
+	Actor Customer {
+		withdrawCash
+		checkBalance
+		changePIN
+		transferFunds
+	}
+
+	Actor Maintenance {
+		replenishCash
+		updateFirmware
+	}
+
+	Actor SystemAdmin {
+		manageAuditLogs
+		setTransactionLimits
+	}
+
+	Interaction WithdrawCashSSD {
+
+		[Participants: Customer WithdrawCashService]
+
+		CallMessage::WithdrawCashSSDCallMessage1(insertDebitCard WithdrawCashSSDCallMessage1SendingEnd -> WithdrawCashSSDExecution1StartEnd)
+		ReturnMessage::WithdrawCashSSDCallMessage1Return(WithdrawCashSSDExecution1FinishEnd -> WithdrawCashSSDCallMessage1ReturnReceivingEnd WithdrawCashSSDCallMessage1)
+		CallMessage::WithdrawCashSSDCallMessage3(inputPIN WithdrawCashSSDCallMessage3SendingEnd -> WithdrawCashSSDExecution2StartEnd)
+		ReturnMessage::WithdrawCashSSDCallMessage3Return(WithdrawCashSSDExecution2FinishEnd -> WithdrawCashSSDCallMessage3ReturnReceivingEnd WithdrawCashSSDCallMessage3)
+		CallMessage::WithdrawCashSSDCallMessage5(selectWithdrawal WithdrawCashSSDCallMessage5SendingEnd -> WithdrawCashSSDExecution3StartEnd)
+		ReturnMessage::WithdrawCashSSDCallMessage5Return(WithdrawCashSSDExecution3FinishEnd -> WithdrawCashSSDCallMessage5ReturnReceivingEnd WithdrawCashSSDCallMessage5)
+		CallMessage::WithdrawCashSSDCallMessage7(chooseAmount WithdrawCashSSDCallMessage7SendingEnd -> WithdrawCashSSDExecution4StartEnd)
+		ReturnMessage::WithdrawCashSSDCallMessage7Return(WithdrawCashSSDExecution4FinishEnd -> WithdrawCashSSDCallMessage7ReturnReceivingEnd WithdrawCashSSDCallMessage7)
+		CallMessage::WithdrawCashSSDCallMessage9(takeCash WithdrawCashSSDCallMessage9SendingEnd -> WithdrawCashSSDExecution5StartEnd)
+		ReturnMessage::WithdrawCashSSDCallMessage9Return(WithdrawCashSSDExecution5FinishEnd -> WithdrawCashSSDCallMessage9ReturnReceivingEnd WithdrawCashSSDCallMessage9)
+
+		Execution::WithdrawCashSSDExecution1(WithdrawCashService WithdrawCashSSDExecution1StartEnd WithdrawCashSSDExecution1FinishEnd)
+		Execution::WithdrawCashSSDExecution2(WithdrawCashService WithdrawCashSSDExecution2StartEnd WithdrawCashSSDExecution2FinishEnd)
+		Execution::WithdrawCashSSDExecution3(WithdrawCashService WithdrawCashSSDExecution3StartEnd WithdrawCashSSDExecution3FinishEnd)
+		Execution::WithdrawCashSSDExecution4(WithdrawCashService WithdrawCashSSDExecution4StartEnd WithdrawCashSSDExecution4FinishEnd)
+		Execution::WithdrawCashSSDExecution5(WithdrawCashService WithdrawCashSSDExecution5StartEnd WithdrawCashSSDExecution5FinishEnd)
+
+		MessageEnd::WithdrawCashSSDCallMessage1SendingEnd(Customer WithdrawCashSSDCallMessage1)
+		ExecutionEnd::WithdrawCashSSDExecution1StartEnd(WithdrawCashService WithdrawCashSSDExecution1)
+		ExecutionEnd::WithdrawCashSSDExecution1FinishEnd(WithdrawCashService WithdrawCashSSDExecution1)
+		MessageEnd::WithdrawCashSSDCallMessage1ReturnReceivingEnd(Customer WithdrawCashSSDCallMessage1Return)
+		MessageEnd::WithdrawCashSSDCallMessage3SendingEnd(Customer WithdrawCashSSDCallMessage3)
+		ExecutionEnd::WithdrawCashSSDExecution2StartEnd(WithdrawCashService WithdrawCashSSDExecution2)
+		ExecutionEnd::WithdrawCashSSDExecution2FinishEnd(WithdrawCashService WithdrawCashSSDExecution2)
+		MessageEnd::WithdrawCashSSDCallMessage3ReturnReceivingEnd(Customer WithdrawCashSSDCallMessage3Return)
+		MessageEnd::WithdrawCashSSDCallMessage5SendingEnd(Customer WithdrawCashSSDCallMessage5)
+		ExecutionEnd::WithdrawCashSSDExecution3StartEnd(WithdrawCashService WithdrawCashSSDExecution3)
+		ExecutionEnd::WithdrawCashSSDExecution3FinishEnd(WithdrawCashService WithdrawCashSSDExecution3)
+		MessageEnd::WithdrawCashSSDCallMessage5ReturnReceivingEnd(Customer WithdrawCashSSDCallMessage5Return)
+		MessageEnd::WithdrawCashSSDCallMessage7SendingEnd(Customer WithdrawCashSSDCallMessage7)
+		ExecutionEnd::WithdrawCashSSDExecution4StartEnd(WithdrawCashService WithdrawCashSSDExecution4)
+		ExecutionEnd::WithdrawCashSSDExecution4FinishEnd(WithdrawCashService WithdrawCashSSDExecution4)
+		MessageEnd::WithdrawCashSSDCallMessage7ReturnReceivingEnd(Customer WithdrawCashSSDCallMessage7Return)
+		MessageEnd::WithdrawCashSSDCallMessage9SendingEnd(Customer WithdrawCashSSDCallMessage9)
+		ExecutionEnd::WithdrawCashSSDExecution5StartEnd(WithdrawCashService WithdrawCashSSDExecution5)
+		ExecutionEnd::WithdrawCashSSDExecution5FinishEnd(WithdrawCashService WithdrawCashSSDExecution5)
+		MessageEnd::WithdrawCashSSDCallMessage9ReturnReceivingEnd(Customer WithdrawCashSSDCallMessage9Return)
+
+	}
+
+	Interaction CheckBalanceSSD {
+
+		[Participants: Customer CheckBalanceService]
+
+		CallMessage::CheckBalanceSSDCallMessage1(selectBalanceInquiry CheckBalanceSSDCallMessage1SendingEnd -> CheckBalanceSSDExecution1StartEnd)
+		ReturnMessage::CheckBalanceSSDCallMessage1Return(CheckBalanceSSDExecution1FinishEnd -> CheckBalanceSSDCallMessage1ReturnReceivingEnd CheckBalanceSSDCallMessage1)
+
+		Execution::CheckBalanceSSDExecution1(CheckBalanceService CheckBalanceSSDExecution1StartEnd CheckBalanceSSDExecution1FinishEnd)
+
+		MessageEnd::CheckBalanceSSDCallMessage1SendingEnd(Customer CheckBalanceSSDCallMessage1)
+		ExecutionEnd::CheckBalanceSSDExecution1StartEnd(CheckBalanceService CheckBalanceSSDExecution1)
+		ExecutionEnd::CheckBalanceSSDExecution1FinishEnd(CheckBalanceService CheckBalanceSSDExecution1)
+		MessageEnd::CheckBalanceSSDCallMessage1ReturnReceivingEnd(Customer CheckBalanceSSDCallMessage1Return)
+
+	}
+
+	Interaction ReplenishCashSSD {
+
+		[Participants: Maintenance ReplenishCashService]
+
+		CallMessage::ReplenishCashSSDCallMessage1(insertPhysicalKey ReplenishCashSSDCallMessage1SendingEnd -> ReplenishCashSSDExecution1StartEnd)
+		CallMessage::ReplenishCashSSDCallMessage2(inputCredentials ReplenishCashSSDCallMessage2SendingEnd -> ReplenishCashSSDExecution2StartEnd)
+		ReturnMessage::ReplenishCashSSDCallMessage2Return(ReplenishCashSSDExecution2FinishEnd -> ReplenishCashSSDCallMessage2ReturnReceivingEnd ReplenishCashSSDCallMessage2)
+		CallMessage::ReplenishCashSSDCallMessage4(loadBanknoteBundle ReplenishCashSSDCallMessage4SendingEnd -> ReplenishCashSSDExecution3StartEnd)
+		ReturnMessage::ReplenishCashSSDCallMessage4Return(ReplenishCashSSDExecution3FinishEnd -> ReplenishCashSSDCallMessage4ReturnReceivingEnd ReplenishCashSSDCallMessage4)
+
+		Execution::ReplenishCashSSDExecution1(ReplenishCashService ReplenishCashSSDExecution1StartEnd ReplenishCashSSDExecution1FinishEnd)
+		Execution::ReplenishCashSSDExecution2(ReplenishCashService ReplenishCashSSDExecution2StartEnd ReplenishCashSSDExecution2FinishEnd)
+		Execution::ReplenishCashSSDExecution3(ReplenishCashService ReplenishCashSSDExecution3StartEnd ReplenishCashSSDExecution3FinishEnd)
+
+		MessageEnd::ReplenishCashSSDCallMessage1SendingEnd(Maintenance ReplenishCashSSDCallMessage1)
+		ExecutionEnd::ReplenishCashSSDExecution1StartEnd(ReplenishCashService ReplenishCashSSDExecution1)
+		ExecutionEnd::ReplenishCashSSDExecution1FinishEnd(ReplenishCashService ReplenishCashSSDExecution1)
+		MessageEnd::ReplenishCashSSDCallMessage2SendingEnd(Maintenance ReplenishCashSSDCallMessage2)
+		ExecutionEnd::ReplenishCashSSDExecution2StartEnd(ReplenishCashService ReplenishCashSSDExecution2)
+		ExecutionEnd::ReplenishCashSSDExecution2FinishEnd(ReplenishCashService ReplenishCashSSDExecution2)
+		MessageEnd::ReplenishCashSSDCallMessage2ReturnReceivingEnd(Maintenance ReplenishCashSSDCallMessage2Return)
+		MessageEnd::ReplenishCashSSDCallMessage4SendingEnd(Maintenance ReplenishCashSSDCallMessage4)
+		ExecutionEnd::ReplenishCashSSDExecution3StartEnd(ReplenishCashService ReplenishCashSSDExecution3)
+		ExecutionEnd::ReplenishCashSSDExecution3FinishEnd(ReplenishCashService ReplenishCashSSDExecution3)
+		MessageEnd::ReplenishCashSSDCallMessage4ReturnReceivingEnd(Maintenance ReplenishCashSSDCallMessage4Return)
+
+	}
+
+	Interaction ManageAuditLogsSSD {
+
+		[Participants: SystemAdmin ManageAuditLogsService]
+
+		CallMessage::ManageAuditLogsSSDCallMessage1(insertFIPSToken ManageAuditLogsSSDCallMessage1SendingEnd -> ManageAuditLogsSSDExecution1StartEnd)
+		ReturnMessage::ManageAuditLogsSSDCallMessage1Return(ManageAuditLogsSSDExecution1FinishEnd -> ManageAuditLogsSSDCallMessage1ReturnReceivingEnd ManageAuditLogsSSDCallMessage1)
+		CallMessage::ManageAuditLogsSSDCallMessage3(selectLogRange ManageAuditLogsSSDCallMessage3SendingEnd -> ManageAuditLogsSSDExecution2StartEnd)
+		ReturnMessage::ManageAuditLogsSSDCallMessage3Return(ManageAuditLogsSSDExecution2FinishEnd -> ManageAuditLogsSSDCallMessage3ReturnReceivingEnd ManageAuditLogsSSDCallMessage3)
+
+		Execution::ManageAuditLogsSSDExecution1(ManageAuditLogsService ManageAuditLogsSSDExecution1StartEnd ManageAuditLogsSSDExecution1FinishEnd)
+		Execution::ManageAuditLogsSSDExecution2(ManageAuditLogsService ManageAuditLogsSSDExecution2StartEnd ManageAuditLogsSSDExecution2FinishEnd)
+
+		MessageEnd::ManageAuditLogsSSDCallMessage1SendingEnd(SystemAdmin ManageAuditLogsSSDCallMessage1)
+		ExecutionEnd::ManageAuditLogsSSDExecution1StartEnd(ManageAuditLogsService ManageAuditLogsSSDExecution1)
+		ExecutionEnd::ManageAuditLogsSSDExecution1FinishEnd(ManageAuditLogsService ManageAuditLogsSSDExecution1)
+		MessageEnd::ManageAuditLogsSSDCallMessage1ReturnReceivingEnd(SystemAdmin ManageAuditLogsSSDCallMessage1Return)
+		MessageEnd::ManageAuditLogsSSDCallMessage3SendingEnd(SystemAdmin ManageAuditLogsSSDCallMessage3)
+		ExecutionEnd::ManageAuditLogsSSDExecution2StartEnd(ManageAuditLogsService ManageAuditLogsSSDExecution2)
+		ExecutionEnd::ManageAuditLogsSSDExecution2FinishEnd(ManageAuditLogsService ManageAuditLogsSSDExecution2)
+		MessageEnd::ManageAuditLogsSSDCallMessage3ReturnReceivingEnd(SystemAdmin ManageAuditLogsSSDCallMessage3Return)
+
+	}
+
+	Interaction TransferFundsSSD {
+
+		[Participants: Customer TransferFundsService]
+
+		CallMessage::TransferFundsSSDCallMessage1(selectTransferMenu TransferFundsSSDCallMessage1SendingEnd -> TransferFundsSSDExecution1StartEnd)
+		ReturnMessage::TransferFundsSSDCallMessage1Return(TransferFundsSSDExecution1FinishEnd -> TransferFundsSSDCallMessage1ReturnReceivingEnd TransferFundsSSDCallMessage1)
+		CallMessage::TransferFundsSSDCallMessage3(chooseTargetAccount TransferFundsSSDCallMessage3SendingEnd -> TransferFundsSSDExecution2StartEnd)
+		ReturnMessage::TransferFundsSSDCallMessage3Return(TransferFundsSSDExecution2FinishEnd -> TransferFundsSSDCallMessage3ReturnReceivingEnd TransferFundsSSDCallMessage3)
+		CallMessage::TransferFundsSSDCallMessage5(chooseAndConfirmAmount TransferFundsSSDCallMessage5SendingEnd -> TransferFundsSSDExecution3StartEnd)
+		ReturnMessage::TransferFundsSSDCallMessage5Return(TransferFundsSSDExecution3FinishEnd -> TransferFundsSSDCallMessage5ReturnReceivingEnd TransferFundsSSDCallMessage5)
+
+		Execution::TransferFundsSSDExecution1(TransferFundsService TransferFundsSSDExecution1StartEnd TransferFundsSSDExecution1FinishEnd)
+		Execution::TransferFundsSSDExecution2(TransferFundsService TransferFundsSSDExecution2StartEnd TransferFundsSSDExecution2FinishEnd)
+		Execution::TransferFundsSSDExecution3(TransferFundsService TransferFundsSSDExecution3StartEnd TransferFundsSSDExecution3FinishEnd)
+
+		MessageEnd::TransferFundsSSDCallMessage1SendingEnd(Customer TransferFundsSSDCallMessage1)
+		ExecutionEnd::TransferFundsSSDExecution1StartEnd(TransferFundsService TransferFundsSSDExecution1)
+		ExecutionEnd::TransferFundsSSDExecution1FinishEnd(TransferFundsService TransferFundsSSDExecution1)
+		MessageEnd::TransferFundsSSDCallMessage1ReturnReceivingEnd(Customer TransferFundsSSDCallMessage1Return)
+		MessageEnd::TransferFundsSSDCallMessage3SendingEnd(Customer TransferFundsSSDCallMessage3)
+		ExecutionEnd::TransferFundsSSDExecution2StartEnd(TransferFundsService TransferFundsSSDExecution2)
+		ExecutionEnd::TransferFundsSSDExecution2FinishEnd(TransferFundsService TransferFundsSSDExecution2)
+		MessageEnd::TransferFundsSSDCallMessage3ReturnReceivingEnd(Customer TransferFundsSSDCallMessage3Return)
+		MessageEnd::TransferFundsSSDCallMessage5SendingEnd(Customer TransferFundsSSDCallMessage5)
+		ExecutionEnd::TransferFundsSSDExecution3StartEnd(TransferFundsService TransferFundsSSDExecution3)
+		ExecutionEnd::TransferFundsSSDExecution3FinishEnd(TransferFundsService TransferFundsSSDExecution3)
+		MessageEnd::TransferFundsSSDCallMessage5ReturnReceivingEnd(Customer TransferFundsSSDCallMessage5Return)
+
+	}
+
+	Interaction ChangePINSSD {
+
+		[Participants: Customer ChangePINService]
+
+	}
+
+	Interaction UpdateFirmwareSSD {
+
+		[Participants: Maintenance UpdateFirmwareService]
+
+	}
+
+	Interaction VerifyPINSSD {
+
+		[Participants: Customer VerifyPINService]
+
+	}
+
+	Interaction DisplayHistorySSD {
+
+		[Participants: Customer DisplayHistoryService]
+
+	}
+
+	Interaction SecurityAuthenticationSSD {
+
+		[Participants: Customer SecurityAuthenticationService]
+
+	}
+
+	Interaction SetTransactionLimitsSSD {
+
+		[Participants: SystemAdmin SetTransactionLimitsService]
+
+	}
+
+	Service ATMSystem {
+
+	}
+
+	Service ThirdPartyServices {
+
+	}
+
+	Service WithdrawCashService {
+
+		[Operation]
+		insertDebitCard(cardID)
+		inputPIN(pinCode)
+		selectWithdrawal(optionID)
+		chooseAmount(selectedAmount)
+		takeCash()
+
+	}
+
+	Service CheckBalanceService {
+
+		[Operation]
+		selectBalanceInquiry(menuOption)
+
+	}
+
+	Service ReplenishCashService {
+
+		[Operation]
+		insertPhysicalKey(keyID)
+		inputCredentials(operatorID)
+		loadBanknoteBundle(denomination, count)
+
+	}
+
+	Service ManageAuditLogsService {
+
+		[Operation]
+		insertFIPSToken(token)
+		selectLogRange(start, end)
+
+	}
+
+	Service TransferFundsService {
+
+		[Operation]
+		selectTransferMenu(optionID)
+		chooseTargetAccount(accountNo)
+		chooseAndConfirmAmount(amount)
+
+	}
+
+	Service ChangePINService {
+
+	}
+
+	Service UpdateFirmwareService {
+
+	}
+
+	Service VerifyPINService {
+
+	}
+
+	Service DisplayHistoryService {
+
+	}
+
+	Service SecurityAuthenticationService {
+
+	}
+
+	Service SetTransactionLimitsService {
+
+	}
+
+	Contract WithdrawCashService::insertDebitCard(cardID :String) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract WithdrawCashService::inputPIN(pinCode :String) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract WithdrawCashService::selectWithdrawal(optionID :String) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract WithdrawCashService::chooseAmount(selectedAmount :Integer) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract WithdrawCashService::takeCash() : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract CheckBalanceService::selectBalanceInquiry(menuOption :String) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract ReplenishCashService::insertPhysicalKey(keyID :String) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract ReplenishCashService::inputCredentials(operatorID :String) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract ReplenishCashService::loadBanknoteBundle(denomination :String, count :Real) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract ManageAuditLogsService::insertFIPSToken(token :String) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract ManageAuditLogsService::selectLogRange(start :Date, end :Date) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract TransferFundsService::selectTransferMenu(optionID :String) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract TransferFundsService::chooseTargetAccount(accountNo :String) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+	Contract TransferFundsService::chooseAndConfirmAmount(amount :Real) : Boolean {
+
+		precondition:
+			true
+		postcondition:
+			result = true
+	}
+
+}
+
+DomainModel ATM { EntityContext CustomerService {
+
+	@AutoCRUD Entity SecurityToken {
+		TokenID: String
+		Type: String
+		ExpiryDate: Date
+
+		[Refer]
+		Secures : AuditLog* Association
+	}
+
+	@AutoCRUD Entity User {
+		UserID : String
+		Name : String
+		Role : String
+
+		[Refer]
+		Own : DebitCard* Association
+		Holds : Account* Association
+		Generates : AuditLog* Association
+	}
+
+	@AutoCRUD Entity MaintenanceLog {
+		LogID: String
+		OperatorID: String
+		Denomination: Integer
+		Count: Integer
+		Timestamp: Date
+	}
+
+	@AutoCRUD Entity AuditLog {
+		LogID: String
+		OperationType: String
+		Timestamp: Date
+		UserID: String
+		Details: String
+	} } EntityContext MaintenanceService {
+
+	@AutoCRUD Entity Account {
+		AccountNumber: String
+		UserID: String
+		Balance: Real
+		FrozenBalance: Real
+
+		[Refer]
+		Has : Transaction* Association
+		Have : BalanceInquiry* Association
+		Generates : TransferRecord* Association
+	}
+
+	@AutoCRUD Entity Transaction {
+		TransactionID: String
+		AccountNumber: String
+		Amount: Real
+		Timestamp: Date
+		TransactionType: String
+	}
+
+	@AutoCRUD Entity DebitCard {
+		CardID : String
+		UserID : String
+		AccountNumber: String
+		ExpiryDate: Date
+		PINHash: String
+
+		[Refer]
+		Linked : Account Association
+	}
+
+	@AutoCRUD Entity BalanceInquiry {
+		InquiryID: String
+		AccountNumber: String
+		Timestamp: Date
+		Result: String
+	}
+
+} EntityContext SystemAdminService {
+
+	@AutoCRUD Entity TransferRecord {
+		TransferID: String
+		SenderAccount: String
+		ReceiverAccount: String
+		Amount: Real
+		Status: String
+	}
+
+	@AutoCRUD Entity CashInventory {
+		Denomination: Integer
+		Count: Integer
+		LastUpdated: Date
+
+		[Refer]
+		Update : MaintenanceLog* Association
+	}
+
+	@AutoCRUD Entity MaintenancePersonnel {
+		OperatorID: String
+		Name: String
+		KeyID: String
+		AuthCredentials: String
+
+		[Refer]
+		Performs : MaintenanceLog* Association
+	} } }
